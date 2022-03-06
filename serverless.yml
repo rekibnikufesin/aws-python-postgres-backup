@@ -1,0 +1,32 @@
+org: willbutton
+app: aws-python-postgres-backup-demo
+console: true
+service: aws-python-postgres-backup-demo
+
+frameworkVersion: '3'
+
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: us-west-2
+
+functions:
+  rateHandler:
+    handler: handler.run
+    events:
+      # Invoke Lambda function daily
+      - schedule: rate(1 day)
+
+resources:
+  Description: AWS Stack for Backup Jobs
+  Resources:
+    S3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: willbutton-db-backups-${self:provider.stage}
+        LifecycleConfiguration:
+          Rules:
+            - ExpirationInDays: 30
+              Prefix: '/'
+              Status: Enabled
