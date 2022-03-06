@@ -1,7 +1,7 @@
 org: willbutton
 app: aws-python-postgres-backup-demo
 console: true
-service: aws-python-postgres-backup-demo
+service: backup-db
 
 frameworkVersion: '3'
 
